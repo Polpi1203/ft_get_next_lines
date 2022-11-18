@@ -6,27 +6,27 @@
 /*   By: polpi <polpi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:42:39 by polpi             #+#    #+#             */
-/*   Updated: 2022/11/17 19:23:52 by polpi            ###   ########.fr       */
+/*   Updated: 2022/11/18 07:41:22 by polpi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-// Tout ce passe avec read ! 
-
-/*
 char	*get_next_line(int fd)
 {
 	char	*buffer;
 	char	*stash;
-	int		i;
+	int		res;
 
-	stash = NULL;
-	buffer = malloc
+	buffer = NULL;
+	res = read(fd, buffer, BUFFER_SIZE);
+	printf("%d", res);
+	printf("%s", buffer);
+
 
 	return ("few");
 }
-*/
+
 int	main (int argc, char **argv)
 {
 	(void)argc;
@@ -34,6 +34,5 @@ int	main (int argc, char **argv)
 	int	fd;
 
 	fd = open("text.txt", O_RDONLY);
-	printf("%d", fd);
-	//get_next_line(fd);
+	get_next_line(fd);
 }
