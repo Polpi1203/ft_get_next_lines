@@ -6,19 +6,19 @@
 /*   By: afaucher <afaucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:42:39 by polpi             #+#    #+#             */
-/*   Updated: 2022/11/25 14:11:46 by afaucher         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:10:33 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 //Extrait de ma stash l'excédent à la ligne précédemment retourner pour la conserver lors du prochain appel de la fonction principale
-static char	*ft_new_stash(char *stash)
+char	*ft_new_stash(char *stash)
 {
 	int		i;
 	int		j;
 	char	*line;
-	
+
 	i = 0;
 	j = 0;
 	if (stash == NULL)
@@ -37,16 +37,17 @@ static char	*ft_new_stash(char *stash)
 		j++;
 	}
 	free (stash);
+	line[j] = '\0';
 	return (line);
-} 
+}
 
 // Extrait de ma stash la ligne à retourner
-static char	*ft_extract_line(char *stash)
+char	*ft_extract_line(char *stash)
 {
 	int		i;
 	int		j;
 	char	*line;
-	
+
 	i = 0;
 	j = 0;
 	if (stash == NULL)
@@ -67,10 +68,8 @@ static char	*ft_extract_line(char *stash)
 	return (line);
 }
 
-
-
 //Complète ma stash à l'aide de la fonction read, en passant par un buffer
-static char	*ft_fill_stash(int fd, char *stash)
+char	*ft_fill_stash(int fd, char *stash)
 {
 	char	*buff;
 	int		rd;
@@ -92,15 +91,19 @@ static char	*ft_fill_stash(int fd, char *stash)
 	}
 	free (buff);
 	return (stash);
-} 
+}
 
 char	*get_next_line(int fd)
 {
 	static char	*stash;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE < 0)
+	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, 0, 0) < 0)
+	{
+		free (stash);
+		stash = 0;
 		return (NULL);
+	}
 	if (!stash)
 	{
 		stash = malloc(sizeof(char) * 1);
@@ -109,22 +112,20 @@ char	*get_next_line(int fd)
 	stash = ft_fill_stash(fd, stash);
 	if (*stash == 0)
 	{
-		free(stash);
+		free (stash);
 		return (stash = 0);
 	}
 	line = ft_extract_line(stash);
 	stash = ft_new_stash(stash);
-
 	return (line);
 }
-/*
-int	main (int argc, char **argv)
+
+int	main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
 	int	fd;
 
 	fd = open("text.txt", O_RDONLY);
-	get_next_line(fd);
+	printf("%s", get_next_line(fd));
 }
-*/
