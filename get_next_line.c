@@ -6,7 +6,7 @@
 /*   By: afaucher <afaucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:42:39 by polpi             #+#    #+#             */
-/*   Updated: 2022/11/25 15:10:33 by afaucher         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:45:26 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_new_stash(char *stash)
 	j = 0;
 	if (stash == NULL)
 		return (NULL);
-	while (stash[i] != '\0' || stash[i] != '\n')
+	while (stash[i] != '\0' && stash[i] != '\n')
 		i++;
 	if (stash[i] == '\n')
 		i++;
@@ -52,7 +52,7 @@ char	*ft_extract_line(char *stash)
 	j = 0;
 	if (stash == NULL)
 		return (NULL);
-	while (stash[i] != '\0' || stash[i] != '\n')
+	while (stash[i] != '\0' && stash[i] != '\n')
 		i++;
 	if (stash[i] == '\n')
 		i++;
@@ -75,7 +75,7 @@ char	*ft_fill_stash(int fd, char *stash)
 	int		rd;
 
 	rd = 1;
-	buff = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	buff = malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (buff == NULL)
 		return (NULL);
 	while (rd != 0 && ft_strchr(stash, '\n') == 0)
@@ -119,7 +119,7 @@ char	*get_next_line(int fd)
 	stash = ft_new_stash(stash);
 	return (line);
 }
-
+/*
 int	main(int argc, char **argv)
 {
 	(void)argc;
@@ -128,4 +128,8 @@ int	main(int argc, char **argv)
 
 	fd = open("text.txt", O_RDONLY);
 	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 }
+*/

@@ -6,7 +6,7 @@
 /*   By: afaucher <afaucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 15:42:42 by polpi             #+#    #+#             */
-/*   Updated: 2022/11/25 15:16:22 by afaucher         ###   ########.fr       */
+/*   Updated: 2022/11/25 15:19:40 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	i = 0;
 	j = 0;
 	len = (ft_strlen(s1) + ft_strlen(s2));
-	result = malloc(sizeof(char) * len + 1);
+	result = malloc(sizeof(char) * (len + 1));
 	if (result == NULL)
 		return (NULL);
 	while (s1[i] != '\0')
@@ -67,6 +67,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	result[i] = '\0';
-	free ((void *)(s1));
 	return (result);
 }
