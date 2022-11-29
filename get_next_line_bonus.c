@@ -1,18 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaucher <afaucher@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/17 15:42:39 by polpi             #+#    #+#             */
-/*   Updated: 2022/11/29 09:33:44 by afaucher         ###   ########.fr       */
+/*   Created: 2022/11/29 09:36:38 by afaucher          #+#    #+#             */
+/*   Updated: 2022/11/29 09:46:06 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
-//Extrait de ma stash l'excédent à la ligne précédemment retourner pour la conserver lors du prochain appel de la fonction principale
 char	*ft_new_stash(char *stash)
 {
 	int		i;
@@ -41,7 +40,6 @@ char	*ft_new_stash(char *stash)
 	return (line);
 }
 
-// Extrait de ma stash la ligne à retourner
 char	*ft_extract_line(char *stash)
 {
 	int		i;
@@ -95,28 +93,28 @@ char	*ft_fill_stash(int fd, char *stash)
 
 char	*get_next_line(int fd)
 {
-	static char	*stash;
+	static char	*stash[4096];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, 0, 0) < 0)
+	if (fd < 0 || BUFFER_SIZE < 0 || read(fd, 0, 0) < 0 || fd > 4096)
 	{
-		free (stash);
-		stash = 0;
+		free (stash[fd]);
+		stash[fd] = 0;
 		return (NULL);
 	}
-	if (!stash)
+	if (!stash[fd])
 	{
-		stash = malloc(sizeof(char) * 1);
-		stash[0] = 0;
+		stash[fd] = malloc(sizeof(char) * 1);
+		stash[fd][0] = 0;
 	}
-	stash = ft_fill_stash(fd, stash);
-	if (*stash == 0)
+	stash[fd] = ft_fill_stash(fd, stash[fd]);
+	if (*stash[fd] == 0)
 	{
-		free (stash);
-		return (stash = 0);
+		free (stash[fd]);
+		return (stash[fd] = 0);
 	}
-	line = ft_extract_line(stash);
-	stash = ft_new_stash(stash);
+	line = ft_extract_line(stash[fd]);
+	stash[fd] = ft_new_stash(stash[fd]);
 	return (line);
 }
 /*
